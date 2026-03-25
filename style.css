@@ -1,0 +1,125 @@
+﻿/* Netflix-style theme */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #141414;
+  --text: #e5e5e5;
+  --muted: #b3b3b3;
+  --red: #e50914;
+  --white: #ffffff;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+body {
+  min-height: 100vh;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background: radial-gradient(circle at 20% 10%, #2e2e2e 0%, #141414 40%, #0f0f0f 100%);
+  color: var(--text);
+  line-height: 1.4;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20,20,20,.8), rgba(0,0,0,.93));
+  pointer-events: none;
+  z-index: -1;
+}
+
+header {
+  text-align: center;
+  padding: 2.5rem 1rem 1rem;
+}
+
+h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  letter-spacing: 0.03em;
+  color: var(--white);
+  text-transform: uppercase;
+}
+
+main {
+  padding: 1.25rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.profiles {
+  display: grid;
+  gap: 1.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  align-items: start;
+  justify-items: center;
+}
+
+.profile {
+  background: rgba(20,20,20,.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: .8rem;
+  width: 100%;
+  max-width: 220px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+.profile:hover,
+.profile:focus-within {
+  transform: translateY(-6px);
+  border-color: rgba(229, 9, 20, 0.9);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+}
+
+.profile img {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  border-radius: 8px;
+  border: 2px solid rgba(255,255,255,0.2);
+}
+
+figcaption {
+  margin-top: 0.7rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+  text-transform: capitalize;
+}
+
+footer {
+  margin-top: 2.5rem;
+  padding: 1rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  border: 0;
+}
+
+@media (max-width: 550px) {
+  .profile {
+    padding: 0.7rem;
+    border-radius: 10px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+}
