@@ -16,22 +16,32 @@
         <section aria-labelledby="profiles-title">
             <h2 id="profiles-title" class="visually-hidden">Perfis de usuário</h2>
             <div class="profiles">
-                <figure class="profile">
-                    <img src="/assets/cffa6f80921f68f97921681755a2156f.jpg" alt="Avatar do perfil 1" loading="lazy">
-                    <figcaption>Perfil 1</figcaption>
+                <figure class="profile" onclick="selectProfile('Perfil 1', 'assets/cffa6f80921f68f97921681755a2156f.jpg')">
+                    <img src="assets/cffa6f80921f68f97921681755a2156f.jpg" alt="Avatar do perfil 1" class="profile__image" loading="lazy">
+                    <figcaption class="profile__name">Perfil 1</figcaption>
                 </figure>
 
-                <figure class="profile">
-                    <img src="assets/L u c y.jpg" alt="Avatar do perfil 2" loading="lazy">
-                    <figcaption>Perfil 2</figcaption>
+                <figure class="profile" onclick="selectProfile('Perfil 2', 'assets/L u c y.jpg')">
+                    <img src="assets/L u c y.jpg" alt="Avatar do perfil 2" class="profile__image" loading="lazy">
+                    <figcaption class="profile__name">Perfil 2</figcaption>
                 </figure>
 
-                <figure class="profile">
-                    <img src="assets/power icon.jpg" alt="Avatar do perfil 3" loading="lazy">
-                    <figcaption>Perfil 3</figcaption>
+                <figure class="profile" onclick="selectProfile('Perfil 3', 'assets/power icon.jpg')">
+                    <img src="assets/power icon.jpg" alt="Avatar do perfil 3" class="profile__image" loading="lazy">
+                    <figcaption class="profile__name">Perfil 3</figcaption>
                 </figure>
             </div>
         </section>
     </main>
+
+    <script>
+        function selectProfile(profileName, profileImage) {
+            localStorage.setItem('selectedProfile', JSON.stringify({
+                name: profileName,
+                image: profileImage
+            }));
+            window.location.href = 'catalog.html';
+        }
+    </script>
 </body>
 </html>

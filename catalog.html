@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Catálogo de filmes e séries">
+    <title>Catálogo - Netflix</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="catalog-header">
+        <div class="catalog-header__section catalog-header__nav">
+            <a href="index.html" class="nav-back-button" title="Voltar aos perfis">
+                <span>← Voltar</span>
+            </a>
+        </div>
+        <div class="catalog-header__section catalog-header__logo">
+            <h1>Netflix</h1>
+        </div>
+        <div class="catalog-header__section catalog-header__profile">
+            <div class="user-profile">
+                <img id="profile-avatar" src="" alt="Avatar do perfil" class="user-profile__avatar">
+                <span id="profile-name" class="user-profile__name"></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="catalog-container">
+        <div class="search-section">
+            <input 
+                type="text" 
+                id="search-input" 
+                class="search-input" 
+                placeholder="🔍 Pesquise filmes, séries..."
+                aria-label="Pesquisar conteúdo"
+            >
+        </div>
+
+        <section class="media-section">
+            <h2 class="media-section__title">Filmes Populares</h2>
+            <div class="media-grid" id="movies-grid">
+            </div>
+        </section>
+
+        <section class="media-section">
+            <h2 class="media-section__title">Séries Populares</h2>
+            <div class="media-grid" id="series-grid">
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const content = {
+            movies: [
+                { id: 1, title: "Homem-Aranha", category: "Ação", year: 2023 },
+                { id: 2, title: "Interestelar", category: "Ficção Científica", year: 2014 },
+                { id: 3, title: "A Origem", category: "Ficção Científica", year: 2010 },
+                { id: 4, title: "Vingadores", category: "Ação", year: 2023 },
+                { id: 5, title: "Coringa", category: "Drama", year: 2019 },
+                { id: 6, title: "Aquaman", category: "Ação", year: 2023 },
+                { id: 7, title: "Homem de Ferro", category: "Ação", year: 2023 },
+                { id: 8, title: "Pantera Negra", category: "Ação", year: 2023 },
+                { id: 9, title: "Capitã Marvel", category: "Ação", year: 2023 },
+                { id: 10, title: "Jogo da Imitação", category: "Drama", year: 2014 },
+            ],
+            series: [
+                { id: 101, title: "Stranger Things", category: "Ficção Científica", year: 2023 },
+                { id: 102, title: "The Crown", category: "Drama", year: 2023 },
+                { id: 103, title: "Breaking Bad", category: "Drama", year: 2023 },
+                { id: 104, title: "Sherlock", category: "Mistério", year: 2023 },
+                { id: 105, title: "Peaky Blinders", category: "Drama", year: 2023 },
+                { id: 106, title: "The Witcher", category: "Fantasia", year: 2023 },
+                { id: 107, title: "Bridgerton", category: "Romance", year: 2023 },
+                { id: 108, title: "The Mandalorian", category: "Ficção Científica", year: 2023 },
+                { id: 109, title: "Castlevania", category: "Fantasia", year: 2023 },
+                { id: 110, title: "Dark", category: "Ficção Científica", year: 2023 },
+            ]
+        };
+
+        function loadProfile() {
+            const profile = JSON.parse(localStorage.getItem('selectedProfile'));
+            
+            if (!profile) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            document.getElementById('profile-name').textContent = profile.name;
+            document.getElementById('profile-avatar').src = profile.image;
+        }
+
+        function renderContent() {
+            const moviesGrid = document.getElementById('movies-grid');
+            const seriesGrid = document.getElementById('series-grid');
+
+            content.movies.forEach(movie => {
+                const card = createContentCard(movie);
+                moviesGrid.appendChild(card);
+            });
+
+            content.series.forEach(serie => {
+                const card = createContentCard(serie);
+                seriesGrid.appendChild(card);
+            });
+        }
+
+        function createContentCard(item) {
+            const card = document.createElement('div');
+            card.className = 'media-card';
+            card.innerHTML = `
+                <div class="media-card__thumbnail">
+                    <div class="media-card__thumbnail--placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <span class="media-card__play-icon">▶</span>
+                    </div>
+                </div>
+                <div class="media-card__content">
+                    <h3 class="media-card__title">${item.title}</h3>
+                    <p class="media-card__genre">${item.category}</p>
+                    <p class="media-card__year">${item.year}</p>
+                </div>
+            `;
+            card.setAttribute('data-title', item.title.toLowerCase());
+            return card;
+        }
+
+        function setupSearch() {
+            const searchInput = document.getElementById('search-input');
+            const allCards = document.querySelectorAll('.media-card');
+
+            searchInput.addEventListener('input', (event) => {
+                const searchTerm = event.target.value.toLowerCase();
+
+                allCards.forEach(card => {
+                    const title = card.getAttribute('data-title');
+                    if (title.includes(searchTerm)) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                const visibleCards = Array.from(allCards).some(card => card.style.display !== 'none');
+                if (!visibleCards && searchTerm.length > 0) {
+                    console.log('Nenhum resultado encontrado');
+                }
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadProfile();
+            renderContent();
+            setupSearch();
+        });
+    </script>
+</body>
+</html>
